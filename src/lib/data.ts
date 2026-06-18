@@ -355,6 +355,37 @@ export function getRelatedServices(slug: string, count = 2) {
   return services.filter((service) => service.slug !== slug).slice(0, count);
 }
 
+const themedImages: Record<string, number> = {
+  "dangelo-home-hero": 7518728,
+  "dangelo-intro": 1836983,
+  "dangelo-classic-cut": 1813272,
+  "dangelo-haircut-beard": 7447125,
+  "dangelo-premium-beard": 3998417,
+  "dangelo-executive-cut": 12706272,
+  "dangelo-father-son": 19664875,
+  "dangelo-philosophy": 13809242,
+  "dangelo-philosophy-deep": 897251,
+  "dangelo-storefront": 31162557,
+  "dangelo-book-hero": 2262802,
+  "dangelo-location-hero": 15562983,
+  "dangelo-area-1": 18017465,
+  "dangelo-area-2": 19110695,
+  "dangelo-area-3": 17244358,
+  "dangelo-reviews-hero": 7697322,
+  "dangelo-customer-story": 7562185,
+  "dangelo-about-hero": 8218487,
+  "dangelo-about-history": 4592256,
+  "dangelo-services-hero": 1319462,
+  "dangelo-team-ricardo": 18483778,
+  "dangelo-team-bruno": 6829569,
+  "dangelo-team-felipe": 6102858,
+  "dangelo-team-diego": 30767567,
+};
+
 export function placeholderImage(seed: string, width: number, height: number) {
+  const photoId = themedImages[seed];
+  if (photoId) {
+    return `https://images.pexels.com/photos/${photoId}/pexels-photo-${photoId}.jpeg?auto=compress&cs=tinysrgb&w=${width}&h=${height}&fit=crop`;
+  }
   return `https://picsum.photos/seed/${seed}/${width}/${height}`;
 }

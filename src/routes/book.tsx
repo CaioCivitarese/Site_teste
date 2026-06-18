@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { toast } from "sonner";
-import { Phone, Clock, ShieldCheck, Scissors } from "lucide-react";
+import { Phone, Clock, ShieldCheck, Scissors, MessageCircle } from "lucide-react";
 import { Button } from "#/components/ui/button";
 import { Input } from "#/components/ui/input";
 import { Textarea } from "#/components/ui/textarea";
@@ -43,23 +43,52 @@ export const Route = createFileRoute("/book")({
   component: BookPage,
 });
 
+const timeLabels: Record<string, string> = {
+  morning: "Manhã",
+  afternoon: "Tarde",
+  evening: "Final do dia",
+};
+
+function buildBookingMessage(formData: FormData, serviceName: string) {
+  const time = formData.get("time") as string;
+  const lines = [
+    "Olá! Gostaria de agendar um horário na D'Angelo Barber Club.",
+    "",
+    `Nome: ${formData.get("name")}`,
+    `Telefone: ${formData.get("phone")}`,
+    `E-mail: ${formData.get("email")}`,
+    `Serviço: ${serviceName || "A combinar"}`,
+    `Data preferida: ${formData.get("date") || "A combinar"}`,
+    `Horário preferido: ${timeLabels[time] ?? time}`,
+    `Convidados: ${formData.get("guests")}`,
+  ];
+  const notes = formData.get("notes");
+  if (notes) lines.push(`Observações: ${notes}`);
+  return lines.join("\n");
+}
+
 function BookPage() {
   const { service } = Route.useSearch();
   const [selectedService, setSelectedService] = useState(service ?? "");
-  const [submitting, setSubmitting] = useState(false);
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const form = event.currentTarget;
-    setSubmitting(true);
-    setTimeout(() => {
-      toast.success("Solicitação enviada!", {
-        description: "Entraremos em contato para confirmar seu horário.",
-      });
-      setSubmitting(false);
-      form.reset();
-      setSelectedService("");
-    }, 600);
+    const formData = new FormData(form);
+    const serviceName = services.find((s) => s.slug === formData.get("service"))?.name ?? "";
+
+    const message = buildBookingMessage(formData, serviceName);
+    const phone = business.phoneHref.replace("+", "");
+    window.open(
+      `https://wa.me/${phone}?text=${encodeURIComponent(message)}`,
+      "_blank",
+      "noopener,noreferrer",
+    );
+    toast.success("Abrindo WhatsApp...", {
+      description: "Confirme o envio da mensagem para concluir a solicitação.",
+    });
+    form.reset();
+    setSelectedService("");
   }
 
   return (
@@ -149,8 +178,9 @@ function BookPage() {
                 <Textarea id="notes" name="notes" placeholder="Alguma preferência ou referência que devemos saber?" />
               </div>
 
-              <Button type="submit" size="lg" disabled={submitting} className="w-full sm:w-auto">
-                {submitting ? "Enviando..." : "Solicitar agendamento"}
+              <Button type="submit" size="lg" className="w-full sm:w-auto">
+                <MessageCircle className="h-4 w-4" />
+                Agendar pelo WhatsApp
               </Button>
             </form>
           </div>
@@ -169,6 +199,30 @@ function BookPage() {
                 className="mt-2 block text-lg font-medium text-primary"
               >
                 {business.phone}
+              </a>
+            </div>
+
+            <div className="rounded-sm border border-border bg-card p-7">
+              <div className="flex items-center gap-3">
+                <MessageCircle className="h-5 w-5 text-primary" />
+                <p className="font-display text-xl">Fale agora</p>
+              </div>
+              <p className="mt-3 text-sm text-muted-foreground">
+                Fale diretamente com a equipe pelo WhatsApp ou e-mail.
+              </p>
+              <a
+                href={`https://wa.me/${business.phoneHref.replace("+", "")}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-2 block text-lg font-medium text-primary"
+              >
+                WhatsApp
+              </a>
+              <a
+                href={`mailto:${business.email}`}
+                className="mt-1 block text-sm font-medium text-primary"
+              >
+                {business.email}
               </a>
             </div>
 
