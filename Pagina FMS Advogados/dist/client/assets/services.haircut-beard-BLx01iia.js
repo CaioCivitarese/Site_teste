@@ -1,1 +1,0 @@
-import{j as o,h as t}from"./index-D7MSU_Kh.js";import{S as r}from"./ServicePage-t3_h9xqY.js";import"./index-BOdiUxVy.js";import"./chevron-down-B1HsgcWx.js";import"./Section-C26detuh.js";import"./SectionHeading-Dsb-DcG8.js";import"./PageHero-CPD3mXLQ.js";import"./proxy-DrvNu-dt.js";const x=()=>o.jsx(r,{service:t});export{x as component};
