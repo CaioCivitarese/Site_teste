@@ -640,6 +640,99 @@ a {
   color: var(--ink-soft);
 }
 
+/* Endereço e horário */
+.section-local {
+  background: var(--blue-light);
+}
+
+.section-local h2 {
+  text-align: center;
+  margin-bottom: 36px;
+}
+
+.local-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 22px;
+}
+
+.local-card {
+  background: var(--white);
+  border-radius: var(--radius);
+  padding: 28px 26px;
+  box-shadow: var(--shadow);
+}
+
+.local-card h3 {
+  font-size: 1.15rem;
+  margin-bottom: 14px;
+}
+
+.local-card p {
+  color: var(--ink-soft);
+  margin-bottom: 16px;
+}
+
+.mapa-embed {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 16px;
+  box-shadow: 0 4px 14px rgba(29, 78, 137, 0.18);
+  border: 1px solid var(--blue-soft);
+}
+
+.mapa-embed::before {
+  content: "📍 Mundo Cão Pet Shop";
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--white);
+  color: var(--blue-deep);
+  font-family: "Baloo 2", sans-serif;
+  font-weight: 600;
+  font-size: 0.85rem;
+  padding: 8px 14px;
+  border-bottom: 1px solid var(--blue-soft);
+}
+
+.mapa-embed iframe {
+  display: block;
+  width: 100%;
+  height: 240px;
+  border: 0;
+}
+
+.local-link {
+  font-weight: 700;
+  color: var(--blue);
+}
+
+.local-link:hover {
+  color: var(--orange-dark);
+}
+
+.horario-list {
+  list-style: none;
+}
+
+.horario-list li {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--blue-soft);
+  color: var(--ink-soft);
+  font-weight: 600;
+}
+
+.horario-list li:last-child {
+  border-bottom: none;
+}
+
+.horario-fechado span:last-child {
+  color: var(--orange-dark);
+}
+
 /* CTA final */
 .section-cta-final {
   background:
